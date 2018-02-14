@@ -1,10 +1,10 @@
 #include <stdlib.h>
-#include "../header/stat.h"
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "../header/stat.h"
 
 typedef enum screenType screenType; // enum simplifiant les types d'ecrans choisis
 enum screenType {
@@ -55,16 +55,16 @@ void execProcess(screenType Type) {
 		} else {
 			fprintf(stderr, "Erreur, le type choisie n'existe pas.\n");
 		}
-		// fprintf(stderr, "Une erreur est survenue lors de l'execution du nouveau processus. Pid : %d\n", child_pid);
+		fprintf(stderr, "Une erreur est survenue lors de l'execution du nouveau processus. Pid : %d\n", child_pid);
 	}
 }
 
 int main (int argc, char *argv[]) {
 	system("clear");
 	if (argc == 2) { //verifie s'il y a des options lors l'ouverture du fichier
-		if(!strcmp(argv[1], "-stat")) {
+		if(!strcmp(argv[1], "-stat")) { //le truc qui manque c'est ici qui faut le mettre bisous
 			FILE *logs = fopen("logs.txt", "r");
-			while (fgetc(logs)!=EOF) { //lis le fichier log.txt
+			while (fgetc(logs)!=EOF) {
 				fseek(logs, -1, SEEK_CUR);
 				printf("%c", fgetc(logs));
 			}

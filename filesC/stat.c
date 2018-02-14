@@ -88,7 +88,10 @@ void launchStat() {
 					if(fgetc(f)==*"#")
 						while(fgetc(f)!=*"\n");
 					else {
-
+						while(fgetc(f)!=*"\n") {
+							fseek(f, -1, SEEK_CUR);
+							printf("%c", fgetc(logs));
+						}
 					}
 				}
 			}

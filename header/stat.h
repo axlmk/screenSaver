@@ -8,6 +8,7 @@
 #ifndef HEADER_STAT_H_
 #define HEADER_STAT_H_
 #include <stdio.h>
+#include <stdlib.h>
 
 
 int checkLines(FILE *f);
