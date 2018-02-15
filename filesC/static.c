@@ -23,6 +23,7 @@ char *takeOffData(char *array, int N) {
 		buffer[i-N] = array[i];
 		i++;
 	}
+	//fprintf(stderr, "%s", buffer);
 	return buffer;
 }
 
@@ -54,6 +55,21 @@ int lenFile(FILE *f) {
 
 }
 
+char *takeOffCarriage(char *array) {
+	int N = strlen(array), i=0, j=0;
+	char *buffer = malloc(sizeof(char)*N);
+	memset(buffer, 0, N);
+	while(i<N) {
+		if(array[i]=='\n') {
+			i++;
+		} else {
+			buffer[j] = array[i];
+			i++; j++;
+		}
+	};
+	return buffer;
+}
+
 char *takeOffSpace(char *array) {
 
 }
@@ -63,20 +79,19 @@ char **stoarr(char *array, int width, int lenght) {
 	int i;for(i=0;i<width;i++)
 		buffer[i] = malloc(sizeof(char)*lenght);
 
-	int j;for(j=0;j<width;j++) {
-		for(i=0;i<lenght;i++) {
-			buffer[j][i] = array[j*width+i];
-		}
-		fprintf(stderr, "%s\n", buffer[j]);
+	int j;for(j=0;j<lenght;j++) {
+		for(i=0;i<width;i++)
+			buffer[j][i] = array[j*lenght+i];
 	}
 	return buffer;
 
 }
+
 char *takeOffSharp(char *array) { //si # a la derniere ligne on a un \n en trop car il va garder le dernier \n "enregistré"
 	int i=0, j=0, N = strlen(array);
 	char *buffer = malloc(sizeof(char)*N);
 	memset(buffer, 0, N);
-	while(array[i]!='\0') {
+	while(i<N) {
 		if(array[i]=='#') {
 			while(array[i]!='\n' && array[i]!='\0') {
 				i++;
@@ -87,6 +102,30 @@ char *takeOffSharp(char *array) { //si # a la derniere ligne on a un \n en trop 
 		}
 	}
 	return buffer;
+}
+
+void printStringPbm(char *string) {
+	int i;for(i=0;i<strlen(string);i++) {
+		if(string[i]=='0') {
+			printf(" ");
+		} else {
+			printf("%c", string[i]);
+		}
+	} printf("\n");
+}
+
+void printPbm(char **array, int lenTer, int widTer, int width, int lenght) {
+	int i, j;
+	//fprintf(stderr, "%d %d %d %d", lenTer, widTer, width, lenght);
+	for(i=0;i<(lenTer/2)-(lenght/2);i++) {
+		printf("\n");
+	}
+	for(i=0;i<lenght;i++) {
+		for(j=0;j<(widTer/2)-(width/2);j++) {
+			printf(" ");
+		}
+		printStringPbm(array[i]);
+	}
 }
 
 int main(int argc, char *argv[]) {
@@ -100,11 +139,13 @@ int main(int argc, char *argv[]) {
 		struct winsize w;
     	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 		char magicNumber[10] = "\0";
-		int width, length;
+		int width, lenght;
 		int N = lenFile(f);
 		char *string = takeOffSharp(createArray(f, N));
-		string = getDataPbm(string, magicNumber, &width, &length);
-		char **array = stoarr(string, width, length);
+		printf("%s", string);
+		//string = getDataPbm(string, magicNumber, &width, &lenght);
+		//string = takeOffCarriage(string);
+		//printPbm(stoarr(string, width, lenght), w.ws_row, w.ws_col, width, lenght);
 	}
 	fclose(f);
 	return EXIT_SUCCESS;
