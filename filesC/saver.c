@@ -37,16 +37,16 @@ void execProcess(screenType Type) {
 		char *envPath = malloc(sizeof(char)*(strlen("../bin/")));
 		strcpy(envPath, ("../bin/"));
 		if (Type == STATIC) {
-			envPath = realloc(envPath, sizeof(char)*(strlen(envPath)+strlen("static")));
+			/*envPath = realloc(envPath, sizeof(char)*(strlen(envPath)+strlen("static")));
 			strcat(envPath, "static");
 			char *envPathPbm = malloc(sizeof(char)*(strlen("../pbm/")));
 			strcpy(envPathPbm, "../pbm/");
 			envPathPbm = realloc(envPathPbm, sizeof(char)*(strlen(envPathPbm)+strlen("img1.txt"))); // random file
-			strcat(envPathPbm, "img1.txt");
+			strcat(envPathPbm, "img1.txt");*/
 			execl("static", "../pbm/img1.txt", NULL);
 		} else if (Type == DYNAMIC) {
-			strcat(envPath, "/dynamic");
-			execl(envPath,"", NULL);
+			strcat(envPath, "dynamic");
+			execl("dynamic", "",NULL);
 		} else if (Type == INTERACTIVE) {
 			char *x = malloc(sizeof(char));
 			char *y = malloc(sizeof(char));
@@ -81,7 +81,7 @@ int main (int argc, char *argv[]) {
 		srand(time(NULL));
 		int r=rand()%3+1;
 		int i=0;
-		r = 1; // r prends une variable aléatoire qui va servir a choisir le screen
+		r = 2; // r prends une variable aléatoire qui va servir a choisir le screen
 		if (r==1) {
 			execProcess(STATIC);
 		} else if (r==2) {
