@@ -25,13 +25,13 @@ char *takeOffData(char *array, int N) {
 
 char *getDataPbm(char *array, char *magicNumber, int *width, int *lenght) {
 	int i=0, j=0, n=0;
-	char buffer[10] = "\0";
+	char buffer[10]; memset(buffer, 0, 10);
 	while(array[i]!='\n') {
 		buffer[j]=array[i];
 		i++;j++;
 	}i++; strcpy(magicNumber, buffer); memset(buffer, 0, 10); j=0;//magicNumber
 
-	while(array[i]!='\n') {
+	while(array[i]!=' ') {
 		buffer[j]=array[i];
 		i++;j++;
 	}i++; *width = atoi(buffer); memset(buffer, 0, 10), j=0;

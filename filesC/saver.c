@@ -81,7 +81,7 @@ int main (int argc, char *argv[]) {
 		srand(time(NULL));
 		int r=rand()%3+1;
 		int i=0;
-		r = 1; // r prends une variable aléatoire qui va servir a choisir le screen
+		r = 2; // r prends une variable aléatoire qui va servir a choisir le screen
 		if (r==1) {
 			execProcess(STATIC);
 		} else if (r==2) {
