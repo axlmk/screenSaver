@@ -1,6 +1,6 @@
 #include "../header/file.h"
 
-char *createArray(FILE *f, int N) {
+char *createString(FILE *f, int N) {
 	char *array = malloc(sizeof(char)*(N+1));
 	fseek(f, 0, SEEK_SET);
 	int i=0;while(fgetc(f)!=EOF) {

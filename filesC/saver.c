@@ -43,7 +43,7 @@ void execProcess(screenType Type) {
 			strcpy(envPathPbm, "../pbm/");
 			envPathPbm = realloc(envPathPbm, sizeof(char)*(strlen(envPathPbm)+strlen("img1.txt"))); // random file
 			strcat(envPathPbm, "img1.txt");*/
-			execl("static", "../pbm/img1.txt", NULL);
+			execl("static", "../pbm/img1.pbm", NULL);
 		} else if (Type == DYNAMIC) {
 			strcat(envPath, "dynamic");
 			execl("dynamic", "",NULL);
@@ -81,7 +81,7 @@ int main (int argc, char *argv[]) {
 		srand(time(NULL));
 		int r=rand()%3+1;
 		int i=0;
-		r = 2; // r prends une variable aléatoire qui va servir a choisir le screen
+		r = 1; // r prends une variable aléatoire qui va servir a choisir le screen
 		if (r==1) {
 			execProcess(STATIC);
 		} else if (r==2) {

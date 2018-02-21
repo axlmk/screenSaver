@@ -7,7 +7,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-char *createArray(FILE *f, int N);
+char *createString(FILE *f, int N);
 char *takeOffData(char *array, int N);
 char *getDataPbm(char *array, char *magicNumber, int *width, int *lenght);
 int lenFile(FILE *f);
