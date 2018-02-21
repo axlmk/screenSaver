@@ -83,13 +83,13 @@ char *takeOffSpace(char *array) {
 }
 
 char **stoarr(char *array, int width, int lenght) {
-	char **buffer = malloc(sizeof(char*)*width);
-	int i;for(i=0;i<width;i++)
-		buffer[i] = malloc(sizeof(char)*lenght);
-
-	int j;for(j=0;j<lenght;j++) {
+	int i, j;
+	char **buffer = malloc(sizeof(char*)*lenght);
+	for(i=0;i<lenght;i++)
+		buffer[i] = malloc(sizeof(char)*width);
+	for(j=0;j<lenght;j++) {
 		for(i=0;i<width;i++)
-			buffer[j][i] = array[j*width+i];
+			buffer[j][i] = array[i+j*width];
 	}
 	return buffer;
 
