@@ -24,7 +24,7 @@ char *takeOffData(char *array, int N) {
 }
 
 char *getDataPbm(char *array, char *magicNumber, int *width, int *lenght) {
-	int i=0, j=0, n=0;
+	int i=0, j=0;
 	char buffer[10]; memset(buffer, 0, 10);
 	while(array[i]!='\n') {
 		buffer[j]=array[i];
@@ -83,13 +83,20 @@ char *takeOffSpace(char *array) {
 }
 
 char **stoarr(char *array, int width, int lenght) {
+	/*
+	* transforme un tableau 1 dimension en tableau 2 dimensions
+	* array = tableau dimension 1
+	* width = largeur du tableau
+	* lenght = hauteur du tableau
+	* return un tableau a 2 dimensions
+	*/
 	char **buffer = malloc(sizeof(char*)*width);
 	int i;for(i=0;i<width;i++)
 		buffer[i] = malloc(sizeof(char)*lenght);
 
-	int j;for(j=0;j<lenght;j++) {
-		for(i=0;i<width;i++)
-			buffer[j][i] = array[j*width+i];
+	int j;for(j=0;j<width;j++) {
+		for(i=0;i<lenght;i++)
+			buffer[j][i] = array[j+width*i];
 	}
 	return buffer;
 

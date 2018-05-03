@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "../header/file.h"
 
 void printStringPbm(char *string) {

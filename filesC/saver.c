@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <time.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -80,7 +77,6 @@ int main (int argc, char *argv[]) {
 	} else if (argc == 1) { // lance les screensavers
 		srand(time(NULL));
 		int r=rand()%3+1;
-		int i=0;
 		r = 2; // r prends une variable aléatoire qui va servir a choisir le screen
 		if (r==1) {
 			execProcess(STATIC);
