@@ -82,8 +82,20 @@ char ***numberPbm(int k) {
     return arrayNumber;
 }
 
-char **createDateArray(struct tm *actual_time, char ***referenceArray) {
-
+char **createDateArray(struct tm *actualTime, char ***referenceArray, int size) {
+    int numArr[8];
+    numArr[0] = actualTime.tm_hour % 10;
+    numArr[1] = actualTime.tm_hour / 10;
+    numArr[2] = 10;
+    numArr[3] = actualTime.tm_min % 10;
+    numArr[4] = actualTime.tm_min / 10;
+    numArr[5] = 10;
+    numArr[6] = actualTime.tm_sec % 10;
+    numArr[7] = actualTime.tm_sec / 10;
+    int u = 0;
+    while(u < 8) {
+        
+    }
 }
 
 struct tm *datetime() {
@@ -94,21 +106,23 @@ struct tm *datetime() {
 
 int main(int argc, char *argv[]) {
     system("clear");
-    //int k = (int)argv[1];
-    char ***arrayNumber = numberPbm(2);
+    int k = 0
+    k += (int)argv[1];
+    char ***arrayNumber = numberPbm(k);
     while(1) {
         int i = 0;
         while(i < n) {
             struct winsize w;
             ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 
-            struct tm *actual_time = datetime();
-            char **pbmArray = createDateArray(actual_time, arrayNumber);
+            struct tm *actualTime = datetime();
+            char **pbmArray = createDateArray(actualTime, arrayNumber, 3 + k);
             //make an array of arrays which contain all numbers
             //print line by line this array
-            //wait 1 second
+            sleep(1);
             //print sentence
             //add a point for each i
+            i++;
         }
     }
 
