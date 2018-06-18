@@ -83,7 +83,6 @@ char *takeOffSpace(char *array) {
 }
 
 char **stoarr(char *array, int width, int lenght) {
-<<<<<<< HEAD
 	/*
 	* transforme un tableau 1 dimension en tableau 2 dimensions
 	* array = tableau dimension 1
@@ -98,15 +97,6 @@ char **stoarr(char *array, int width, int lenght) {
 	int j;for(j=0;j<width;j++) {
 		for(i=0;i<lenght;i++)
 			buffer[j][i] = array[j+width*i];
-=======
-	int i, j;
-	char **buffer = malloc(sizeof(char*)*lenght);
-	for(i=0;i<lenght;i++)
-		buffer[i] = malloc(sizeof(char)*width);
-	for(j=0;j<lenght;j++) {
-		for(i=0;i<width;i++)
-			buffer[j][i] = array[i+j*width];
->>>>>>> 7a16140b672ad536a59d265edc34f8d6356fdf46
 	}
 	return buffer;
 
