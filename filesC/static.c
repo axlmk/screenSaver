@@ -37,11 +37,12 @@ int main(int argc, char *argv[]) {
 		struct winsize w;
     	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 		char magicNumber[10] = "\0";
-		int width, lenght;
+		int width=0, lenght=0;
 		int N = lenFile(f);
-		char *string = takeOffSharp(createArray(f, N));
+		char *string = takeOffSharp(createString(f, N));
 		string = getDataPbm(string, magicNumber, &width, &lenght);
 		string = takeOffCarriage(takeOffSpace(string));
+		printf("STRING ->%s<-STRING %d %d", string, width, lenght);
 		printPbm(stoarr(string, width, lenght), w.ws_row, w.ws_col, width, lenght);
 		fgetc(stdin);
 	}

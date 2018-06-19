@@ -31,11 +31,10 @@ char *getDataPbm(char *array, char *magicNumber, int *width, int *lenght) {
 		i++;j++;
 	}i++; strcpy(magicNumber, buffer); memset(buffer, 0, 10); j=0;//magicNumber
 
-	while(array[i]!=' ') {
+	while(array[i]!='\n') {
 		buffer[j]=array[i];
 		i++;j++;
 	}i++; *width = atoi(buffer); memset(buffer, 0, 10), j=0;
-
 	while(array[i]!='\n') {
 		buffer[j]=array[i];
 		i++;j++;
@@ -90,13 +89,12 @@ char **stoarr(char *array, int width, int lenght) {
 	* lenght = hauteur du tableau
 	* return un tableau a 2 dimensions
 	*/
-	char **buffer = malloc(sizeof(char*)*width);
-	int i;for(i=0;i<width;i++)
-		buffer[i] = malloc(sizeof(char)*lenght);
-
-	int j;for(j=0;j<width;j++) {
-		for(i=0;i<lenght;i++)
-			buffer[j][i] = array[j+width*i];
+	char **buffer = malloc(sizeof(char*)*lenght);
+	int i;for(i=0;i<lenght;i++)
+		buffer[i] = malloc(sizeof(char)*width);
+	int j;for(j=0;j<lenght;j++) {
+		for(i=0;i<width;i++)
+			buffer[j][i] = array[i+width*j];
 	}
 	return buffer;
 
