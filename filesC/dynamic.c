@@ -4,27 +4,28 @@
 #define LENGHT 5
 #define WIDTH 3
 
-/*void printPbmTest(char **array, int width, int lenght, int k) {
+void printPbmTest(char **array, int width, int k) {
 	int i, j;
-	for(i=0;i<lenght + 2*k;i++) {
+	for(i=0;i<LENGHT + 2*k;i++) {
 		for(j=0;j<width + k;j++) {
             printf("%c", array[i][j]);
 		} printf("\n");
 	}
 	printf("\n");
-}*/
+}
 
-void printStringPbm(char *string, int k) {
+void printStringPbm(char *string, int width, int k) {
 	int i=0;
-	while(i<strlen(string)) {
-			if((i%(k+WIDTH))==0) {
-				printf(" ");
-			}
-			if(string[i]=='0') {
-				printf(" ");
-			} else {
-				printf("%c", string[i]);
-			}
+	while(i<(WIDTH+k)*8) {
+		//printf("\nlen : %d\n", strlen(string));
+		if((i%(k+WIDTH))==0) {
+			printf(" ");
+		}
+		if(string[i]=='0') {
+			printf(" ");
+		} else {
+			printf("%c", string[i]);
+		}
 		i++;
 	} printf("\n");
 }
@@ -37,10 +38,10 @@ void printPbm(char **array, int lenTer, int widTer, int width, int lenght, int k
 		printf("\n");
 	}
 	for(i=0;i<lenght;i++) {
-		for(j=0;j<((widTer)/2)-((width+7)/2);j++) {
+		for(j=0;j<(widTer/2)-(((WIDTH+k)*8+8)/2);j++) {
 			printf(" ");
 		}
-		printStringPbm(array[i], k);
+		printStringPbm(array[i], width, k);
 	}
 	for(i=0;i<(lenTer/2)-(lenght/2);i++)
 		printf("\n");
@@ -85,6 +86,10 @@ char **makeKBigger(char **arr, int k) {
             for(i=0;i<width;i++)
                 array[lenght-1][i] = 'X';
         }
+		if(arr[1][1] == 'X' && arr[3][1] == 'X') {
+			array[(LENGHT+2*k)/3][(WIDTH+k)/2] = 'X';
+			array[2*(LENGHT+2*k)/3][(WIDTH+k)/2] = 'X';
+		}
     }
     return array;
 }
@@ -126,7 +131,7 @@ char **createDateArray(struct tm *actualTime, char ***referenceArray, int k) {
     numArr[7] = actualTime->tm_sec % 10;
 	char **dateArray = malloc(sizeof(char*)*(LENGHT+2*k));
 	int i;for(i=0;i<LENGHT+2*k;i++)
-		dateArray[i] = malloc(sizeof(char)*((WIDTH+k)*8+7));
+		dateArray[i] = malloc(sizeof(char)*((WIDTH+k)*8));
 	int j;for(j=0;j<LENGHT+2*k;j++) {
 		int u = 0;
 	    while(u < 8) {
@@ -145,26 +150,27 @@ struct tm *datetime() {
 }
 
 int main(int argc, char *argv[]) {
-    //system("clear");
-    int k = 0;
+    int k = 3;
     //k += (int)argv[1];
     char ***arrayNumber = numberPbm(k);
-    //while(1) {
+    while(1) {
         int i = 0;
         int n = 1;
         while(i < n) {
             struct winsize w;
             ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
             struct tm *actualTime = datetime();
+
             char **pbmArray = createDateArray(actualTime, arrayNumber, k);
-			printPbm(pbmArray, w.ws_row, w.ws_col, WIDTH*7, LENGHT, k);
+			//system("clear");
+			printPbm(pbmArray, w.ws_row, w.ws_col, WIDTH*8, LENGHT, k);
+			free(pbmArray);
             sleep(1);
             //print sentence
             //add a point for each i
             i++;
         }
-    //}
+    }
 
     return 0;
 }
