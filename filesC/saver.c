@@ -46,10 +46,8 @@ void execProcess(screenType Type) {
 			//strcat(envPath, "dynamic");
 			execl("dynamic", NULL);
 		} else if (Type == INTERACTIVE) {
-			char *x = malloc(sizeof(char));
-			char *y = malloc(sizeof(char));
-			strcat(envPath, "/interactive");
-			execl(envPath, x, y, NULL);
+			//strcat(envPath, "/interactive");
+			execl("interactive", "10", "10", NULL);
 		} else {
 			fprintf(stderr, "Erreur, le type choisie n'existe pas.\n");
 		}
@@ -76,8 +74,9 @@ int main (int argc, char *argv[]) {
 		}
 	} else if (argc == 1) { // lance les screensavers
 		srand(time(NULL));
-		int r=rand()%3+1;
-		r = 2; // r prends une variable aléatoire qui va servir a choisir le screen
+		int r=rand()%2+1;
+		scanf("%d", &r);
+		//r = 3; // r prends une variable aléatoire qui va servir a choisir le screen
 		if (r==1) {
 			execProcess(STATIC);
 		} else if (r==2) {

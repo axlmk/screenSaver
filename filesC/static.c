@@ -42,7 +42,6 @@ int main(int argc, char *argv[]) {
 		char *string = takeOffSharp(createString(f, N));
 		string = getDataPbm(string, magicNumber, &width, &lenght);
 		string = takeOffCarriage(takeOffSpace(string));
-		printf("STRING ->%s<-STRING %d %d", string, width, lenght);
 		printPbm(stoarr(string, width, lenght), w.ws_row, w.ws_col, width, lenght);
 		fgetc(stdin);
 	}

@@ -94,14 +94,6 @@ char **makeKBigger(char **arr, int k) {
     return array;
 }
 
-char **clearPbm(char *str) {
-        char magicNumber[10] = "\0";
-		int width, lenght;
-		char *string = takeOffCarriage(takeOffSpace(getDataPbm(takeOffSharp(str), magicNumber, &width, &lenght)));
-        char **array = stoarr(string, width, lenght);
-        return array;
-}
-
 char ***numberPbm(int k) {
     char ***arrayNumber = malloc(sizeof(char**) * NUM_ELT_REF_ARR);
     int i;for(i=0;i<NUM_ELT_REF_ARR;i++) {
@@ -150,7 +142,7 @@ struct tm *datetime() {
 }
 
 int main(int argc, char *argv[]) {
-    int k = 10;
+    int k = 3;
 	int N = 5;
     char ***arrayNumber = numberPbm(k);
     while(1) {

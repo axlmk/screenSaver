@@ -11,6 +11,14 @@ char *createString(FILE *f, int N) {
 	return array;
 }
 
+char **clearPbm(char *str) {
+        char magicNumber[10] = "\0";
+		int width, lenght;
+		char *string = takeOffCarriage(takeOffSpace(getDataPbm(takeOffSharp(str), magicNumber, &width, &lenght)));
+        char **array = stoarr(string, width, lenght);
+        return array;
+}
+
 char *takeOffData(char *array, int N) {
 	int i=N, len = strlen(array);
 	char *buffer = malloc(sizeof(char)*(len-N));
@@ -19,7 +27,6 @@ char *takeOffData(char *array, int N) {
 		buffer[i-N] = array[i];
 		i++;
 	}
-	//fprintf(stderr, "%s", buffer);
 	return buffer;
 }
 

@@ -15,5 +15,6 @@ char *takeOffCarriage(char *array);
 char *takeOffSpace(char *array);
 char **stoarr(char *array, int width, int lenght);
 char *takeOffSharp(char *array); //si # a la derniere ligne on a un \n en trop car il va garder le dernier \n "enregistré"
+char **clearPbm(char *str);
 
 #endif
