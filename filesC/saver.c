@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "../header/stat.h"
+#include <string.h>
 
 typedef enum screenType screenType; // enum simplifiant les types d'ecrans choisis
 enum screenType {
@@ -31,7 +32,7 @@ void execProcess(screenType Type) {
 	if (child_pid==0) {
 		write_history(Type);
 	} else {
-		char *envPath = malloc(sizeof(char)*(strlen("../bin/")));
+		char *envPath = malloc(sizeof(char)*(strlen("../bin/dynamic"))); // A MODIFIER (enlever le dynamic)
 		strcpy(envPath, ("../bin/"));
 		if (Type == STATIC) {
 			/*envPath = realloc(envPath, sizeof(char)*(strlen(envPath)+strlen("static")));
@@ -42,8 +43,8 @@ void execProcess(screenType Type) {
 			strcat(envPathPbm, "img1.txt");*/
 			execl("static", "../pbm/img1.pbm", NULL);
 		} else if (Type == DYNAMIC) {
-			strcat(envPath, "dynamic");
-			execl("dynamic", "",NULL);
+			//strcat(envPath, "dynamic");
+			execl("dynamic", NULL);
 		} else if (Type == INTERACTIVE) {
 			char *x = malloc(sizeof(char));
 			char *y = malloc(sizeof(char));
@@ -57,7 +58,6 @@ void execProcess(screenType Type) {
 }
 
 int main (int argc, char *argv[]) {
-	system("clear");
 	if (argc == 2) { //verifie s'il y a des options lors l'ouverture du fichier
 		if(!strcmp(argv[1], "-stat")) { //le truc qui manque c'est ici qui faut le mettre bisous
 			FILE *logs = fopen("logs.txt", "r");
@@ -77,7 +77,7 @@ int main (int argc, char *argv[]) {
 	} else if (argc == 1) { // lance les screensavers
 		srand(time(NULL));
 		int r=rand()%3+1;
-		r = 1; // r prends une variable aléatoire qui va servir a choisir le screen
+		r = 2; // r prends une variable aléatoire qui va servir a choisir le screen
 		if (r==1) {
 			execProcess(STATIC);
 		} else if (r==2) {
