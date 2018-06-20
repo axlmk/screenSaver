@@ -43,7 +43,7 @@ void printPbm(char **array, int lenTer, int widTer, int width, int lenght, int k
 		}
 		printStringPbm(array[i], width, k);
 	}
-	for(i=0;i<(lenTer/2)-(lenght/2);i++)
+	for(i=0;i<(lenTer/2)-(lenght/2)-5;i++)
 		printf("\n");
 }
 
@@ -150,25 +150,29 @@ struct tm *datetime() {
 }
 
 int main(int argc, char *argv[]) {
-    int k = 3;
-    //k += (int)argv[1];
+    int k = 10;
+	int N = 5;
     char ***arrayNumber = numberPbm(k);
     while(1) {
         int i = 0;
-        int n = 1;
-        while(i < n) {
-            struct winsize w;
-            ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-            struct tm *actualTime = datetime();
+        struct winsize w;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        struct tm *actualTime = datetime();
 
-            char **pbmArray = createDateArray(actualTime, arrayNumber, k);
-			//system("clear");
-			printPbm(pbmArray, w.ws_row, w.ws_col, WIDTH*8, LENGHT, k);
-			free(pbmArray);
-            sleep(1);
-            //print sentence
-            //add a point for each i
-            i++;
+        char **pbmArray = createDateArray(actualTime, arrayNumber, k);
+		system("clear");
+		printPbm(pbmArray, w.ws_row, w.ws_col, WIDTH*8, LENGHT, k);
+		free(pbmArray);
+
+		int j;for(j=0;j<(w.ws_col/2)-20;j++) {
+			printf(" ");
+		}
+		printf("Cet ecran sera actualise dans quelques secondes");
+		fflush(stdout);
+		for(j=0;j<N;j++) {
+			fflush(stdout);
+	        sleep(1);
+			printf(".");
         }
     }
 
