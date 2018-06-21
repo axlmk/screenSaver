@@ -47,7 +47,7 @@ void execProcess(screenType Type) {
 			execl("dynamic", NULL);
 		} else if (Type == INTERACTIVE) {
 			//strcat(envPath, "/interactive");
-			execl("interactive", "10", "10", NULL);
+			execl("interactive", "0", "10", NULL);
 		} else {
 			fprintf(stderr, "Erreur, le type choisie n'existe pas.\n");
 		}

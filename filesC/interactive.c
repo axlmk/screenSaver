@@ -2,13 +2,13 @@
 #define DIM 6
 #define NUM_FRAME 4
 
-void printStringPlane(char *string) {
-	int i;for(i=0;i<strlen(string);i++) {
+void printStringPlane(char *string, int n, int len) {
+	int i;for(i=n;i<len;i++) {
 		if(string[i]=='X')
 			printf("%c", string[i]);
 		else
 			printf(" ");
-	} printf("\n");
+	}
 }
 
 void spaceAbove(int y) {
@@ -20,14 +20,23 @@ void spaceLeft(int x) {
 	int i;for(i=0;i<x;i++)
 		printf(" ");
 }
+
 void displayPlane(int x, int y, int x_term, int y_term, char **plane) {
 	system("clear");
 	spaceAbove(y);
 	int i;for(i=0;i<DIM;i++) {
-		spaceLeft(x);
-		printStringPlane(plane[i]);
+		if(x<0) {
+			printStringPlane(plane[i], abs(x), DIM);
+			spaceLeft(x_term-DIM);
+			printStringPlane(plane[i], 0, abs(x));
+			printf("\n");
+		} else {
+			spaceLeft(x);
+			printStringPlane(plane[i], 0, DIM);
+			printf("\n");
+		}
 	}
-	spaceAbove(x_term-DIM-y);
+	spaceAbove(y_term-DIM-y);
 }
 
 FILE *openFile(int i) {
@@ -76,6 +85,7 @@ int main(int argc, char *argv[]) {
 		while(end) {
 			struct winsize w;
 	        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+			//printf("col : %d ligne : %d\n", w.ws_col, w.ws_row);
 			displayPlane(x_pos, y_pos, w.ws_col, w.ws_row, plane[0]);
 			char key = '0';
 			scanf("%c", &key);
