@@ -25,11 +25,11 @@ void displayPlane(int x, int y, int x_term, int y_term, char **plane) {
 	system("clear");
 	spaceAbove(y);
 	int i;for(i=0;i<DIM;i++) {
-		if(x<0) {
-			printStringPlane(plane[i], abs(x), DIM);
-			spaceLeft(x_term-DIM);
-			printStringPlane(plane[i], 0, abs(x));
-			printf("\n");
+		if(x_term-DIM < x && x < x_term) {
+				printStringPlane(plane[i], x_term-x, DIM);
+				spaceLeft(x_term-DIM);
+				printStringPlane(plane[i], 0, x_term-x);
+				printf("\n");
 		} else {
 			spaceLeft(x);
 			printStringPlane(plane[i], 0, DIM);
@@ -61,6 +61,16 @@ char ***setPlaneFrame() {
     return plane;
 }
 
+int convert_x(int x, int x_term) {
+	if(x < 0) {
+		return x_term-1;
+	} else if(x >= x_term) {
+		return 0;
+	} else {
+		return x;
+	}
+}
+
 int moving(char key, int *x, int *y) {
 	int end = 1;
 	if(key == 'z') {
@@ -86,6 +96,7 @@ int main(int argc, char *argv[]) {
 			struct winsize w;
 	        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 			//printf("col : %d ligne : %d\n", w.ws_col, w.ws_row);
+			x_pos = convert_x(x_pos, w.ws_col);
 			displayPlane(x_pos, y_pos, w.ws_col, w.ws_row, plane[0]);
 			char key = '0';
 			scanf("%c", &key);
