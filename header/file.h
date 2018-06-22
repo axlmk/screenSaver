@@ -6,6 +6,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <time.h>
 
 char *createString(FILE *f, int N);
 char *takeOffData(char *array, int N);

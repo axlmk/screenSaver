@@ -1,8 +1,6 @@
-#include <time.h>
 #include <sys/types.h>
-#include <unistd.h>
 #include "../header/stat.h"
-#include <string.h>
+#include "../header/file.h"
 
 typedef enum screenType screenType; // enum simplifiant les types d'ecrans choisis
 enum screenType {

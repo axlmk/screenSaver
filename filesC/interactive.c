@@ -116,15 +116,16 @@ int main(int argc, char *argv[]) {
 	if(argc==2) {
 		int x_pos = atoi(argv[0]), y_pos = atoi(argv[1]);
 		char ***plane = setPlaneFrame();
-		int end = 1, planeFrame = 0;
+		int end = 1;
+		srand(time(NULL));
+		int planeFrame = rand()%4;
+		char key = '0';
 		while(end) {
 			struct winsize w;
 	        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-			//printf("col : %d ligne : %d\n", w.ws_col, w.ws_row);
 			x_pos = convert_x(x_pos, w.ws_col);
 			y_pos = convert_y(y_pos, (w.ws_row - 1));
 			displayPlane(x_pos, y_pos, w.ws_col, (w.ws_row - 1), plane[planeFrame]); //w.ws_row-1 car il faut compter la ligne de frappe des touches
-			char key = '0';
 			scanf("%c", &key);
 			end = moving(key, &x_pos, &y_pos, &planeFrame);
 		}
