@@ -21,10 +21,8 @@ void spaceLeft(int x) {
 		printf(" ");
 }
 
-void displayPlane(int x, int y, int x_term, int y_term, char **plane) {
-	system("clear");
-	spaceAbove(y);
-	int i;for(i=0;i<DIM;i++) {
+void displayPlaneXAxe(int x, int x_term, int n, int k, char **plane) {
+	int i;for(i=n;i<k;i++) {
 		if(x_term-DIM < x && x < x_term) {
 				printStringPlane(plane[i], x_term-x, DIM);
 				spaceLeft(x_term-DIM);
@@ -36,7 +34,19 @@ void displayPlane(int x, int y, int x_term, int y_term, char **plane) {
 			printf("\n");
 		}
 	}
-	spaceAbove(y_term-DIM-y);
+}
+
+void displayPlane(int x, int y, int x_term, int y_term, char **plane) {
+	system("clear");
+	if(y_term-DIM < y && y < y_term){
+		displayPlaneXAxe(x, x_term, y_term-y, DIM, plane);
+		spaceAbove(y_term-DIM-1);
+		displayPlaneXAxe(x, x_term, 0, y_term-y, plane);
+	} else {
+		spaceAbove(y);
+		displayPlaneXAxe(x, x_term, 0, DIM, plane);
+		spaceAbove(y_term-DIM-y);
+	}
 }
 
 FILE *openFile(int i) {
@@ -71,6 +81,16 @@ int convert_x(int x, int x_term) {
 	}
 }
 
+int convert_y(int y, int y_term) {
+	if(y < 0) {
+		return y_term-1;
+	} else if(y >= y_term) {
+		return 0;
+	} else {
+		return y;
+	}
+}
+
 int moving(char key, int *x, int *y) {
 	int end = 1;
 	if(key == 'z') {
@@ -97,6 +117,7 @@ int main(int argc, char *argv[]) {
 	        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 			//printf("col : %d ligne : %d\n", w.ws_col, w.ws_row);
 			x_pos = convert_x(x_pos, w.ws_col);
+			y_pos = convert_y(y_pos, w.ws_row);
 			displayPlane(x_pos, y_pos, w.ws_col, w.ws_row, plane[0]);
 			char key = '0';
 			scanf("%c", &key);
