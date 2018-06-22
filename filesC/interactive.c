@@ -23,11 +23,12 @@ void spaceLeft(int x) {
 
 void displayPlaneXAxe(int x, int x_term, int n, int k, char **plane) {
 	int i;for(i=n;i<k;i++) {
-		if(x_term-DIM < x && x < x_term) {
-				printStringPlane(plane[i], x_term-x, DIM);
-				spaceLeft(x_term-DIM);
-				printStringPlane(plane[i], 0, x_term-x);
-				printf("\n");
+		if(x_term-
+			DIM < x && x < x_term) {
+			printStringPlane(plane[i], x_term-x, DIM);
+			spaceLeft(x_term-DIM);
+			printStringPlane(plane[i], 0, x_term-x);
+			printf("\n");
 		} else {
 			spaceLeft(x);
 			printStringPlane(plane[i], 0, DIM);
@@ -40,7 +41,7 @@ void displayPlane(int x, int y, int x_term, int y_term, char **plane) {
 	system("clear");
 	if(y_term-DIM < y && y < y_term){
 		displayPlaneXAxe(x, x_term, y_term-y, DIM, plane);
-		spaceAbove(y_term-DIM-1);
+		spaceAbove(y_term-DIM);
 		displayPlaneXAxe(x, x_term, 0, y_term-y, plane);
 	} else {
 		spaceAbove(y);
@@ -84,23 +85,27 @@ int convert_x(int x, int x_term) {
 int convert_y(int y, int y_term) {
 	if(y < 0) {
 		return y_term-1;
-	} else if(y >= y_term) {
+	} else if(y >= (y_term)) {
 		return 0;
 	} else {
 		return y;
 	}
 }
 
-int moving(char key, int *x, int *y) {
+int moving(char key, int *x, int *y, int *planeFrame) {
 	int end = 1;
 	if(key == 'z') {
 		*y-=1;
+		*planeFrame = 3;
 	} else if(key == 'q') {
 		*x-=1;
+		*planeFrame = 2;
 	} else if(key == 'd') {
 		*x+=1;
+		*planeFrame = 0;
 	} else if(key == 's') {
 		*y+=1;
+		*planeFrame = 1;
 	} else if(key == 'l') {
 		end = 0;
 	}
@@ -111,17 +116,17 @@ int main(int argc, char *argv[]) {
 	if(argc==2) {
 		int x_pos = atoi(argv[0]), y_pos = atoi(argv[1]);
 		char ***plane = setPlaneFrame();
-		int end = 1;
+		int end = 1, planeFrame = 0;
 		while(end) {
 			struct winsize w;
 	        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 			//printf("col : %d ligne : %d\n", w.ws_col, w.ws_row);
 			x_pos = convert_x(x_pos, w.ws_col);
-			y_pos = convert_y(y_pos, w.ws_row);
-			displayPlane(x_pos, y_pos, w.ws_col, w.ws_row, plane[0]);
+			y_pos = convert_y(y_pos, (w.ws_row - 1));
+			displayPlane(x_pos, y_pos, w.ws_col, (w.ws_row - 1), plane[planeFrame]); //w.ws_row-1 car il faut compter la ligne de frappe des touches
 			char key = '0';
 			scanf("%c", &key);
-			end = moving(key, &x_pos, &y_pos);
+			end = moving(key, &x_pos, &y_pos, &planeFrame);
 		}
 	} else {
 		fprintf(stderr, "Erreur, le nombre d'arguments est invalide.\n");
