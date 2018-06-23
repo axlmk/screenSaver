@@ -1,58 +1,11 @@
 #include "../header/file.h"
-#define DIM 6
+#include "../header/display.h"
+#include "../header/shifting.h"
 #define NUM_FRAME 4
-
-void printStringPlane(char *string, int n, int len) {
-	int i;for(i=n;i<len;i++) {
-		if(string[i]=='X')
-			printf("%c", string[i]);
-		else
-			printf(" ");
-	}
-}
-
-void spaceAbove(int y) {
-	int i;for(i=0;i<y;i++)
-		printf("\n");
-}
-
-void spaceLeft(int x) {
-	int i;for(i=0;i<x;i++)
-		printf(" ");
-}
-
-void displayPlaneXAxe(int x, int x_term, int n, int k, char **plane) {
-	int i;for(i=n;i<k;i++) {
-		if(x_term-
-			DIM < x && x < x_term) {
-			printStringPlane(plane[i], x_term-x, DIM);
-			spaceLeft(x_term-DIM);
-			printStringPlane(plane[i], 0, x_term-x);
-			printf("\n");
-		} else {
-			spaceLeft(x);
-			printStringPlane(plane[i], 0, DIM);
-			printf("\n");
-		}
-	}
-}
-
-void displayPlane(int x, int y, int x_term, int y_term, char **plane) {
-	system("clear");
-	if(y_term-DIM < y && y < y_term){
-		displayPlaneXAxe(x, x_term, y_term-y, DIM, plane);
-		spaceAbove(y_term-DIM);
-		displayPlaneXAxe(x, x_term, 0, y_term-y, plane);
-	} else {
-		spaceAbove(y);
-		displayPlaneXAxe(x, x_term, 0, DIM, plane);
-		spaceAbove(y_term-DIM-y);
-	}
-}
 
 FILE *openFile(int i) {
 	char buffer[64]; buffer[0] = '\0';
-	sprintf(buffer, "../pbm/plane%d.pbm", i);
+	sprintf(buffer, "../pbm/plane/plane%d.pbm", i);
 	FILE *f = fopen(buffer, "r");
 	if(f == NULL) {
 		perror("Erreur lors de l'ouverture du fichier");
@@ -72,53 +25,13 @@ char ***setPlaneFrame() {
     return plane;
 }
 
-int convert_x(int x, int x_term) {
-	if(x < 0) {
-		return x_term-1;
-	} else if(x >= x_term) {
-		return 0;
-	} else {
-		return x;
-	}
-}
-
-int convert_y(int y, int y_term) {
-	if(y < 0) {
-		return y_term-1;
-	} else if(y >= (y_term)) {
-		return 0;
-	} else {
-		return y;
-	}
-}
-
-int moving(char key, int *x, int *y, int *planeFrame) {
-	int end = 1;
-	if(key == 'z') {
-		*y-=1;
-		*planeFrame = 3;
-	} else if(key == 'q') {
-		*x-=1;
-		*planeFrame = 2;
-	} else if(key == 'd') {
-		*x+=1;
-		*planeFrame = 0;
-	} else if(key == 's') {
-		*y+=1;
-		*planeFrame = 1;
-	} else if(key == 'l') {
-		end = 0;
-	}
-	return end;
-}
-
 int main(int argc, char *argv[]) {
 	if(argc==2) {
-		int x_pos = atoi(argv[0]), y_pos = atoi(argv[1]);
-		char ***plane = setPlaneFrame();
-		int end = 1;
 		srand(time(NULL));
 		int planeFrame = rand()%4;
+		int x_pos = atoi(argv[0]), y_pos = atoi(argv[1]);
+		int end = 1;
+		char ***plane = setPlaneFrame();
 		char key = '0';
 		while(end) {
 			struct winsize w;

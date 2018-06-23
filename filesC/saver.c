@@ -30,8 +30,6 @@ void execProcess(screenType Type) {
 	if (child_pid==0) {
 		write_history(Type);
 	} else {
-		char *envPath = malloc(sizeof(char)*(strlen("../bin/dynamic"))); // A MODIFIER (enlever le dynamic)
-		strcpy(envPath, ("../bin/"));
 		if (Type == STATIC) {
 			/*envPath = realloc(envPath, sizeof(char)*(strlen(envPath)+strlen("static")));
 			strcat(envPath, "static");
@@ -39,13 +37,13 @@ void execProcess(screenType Type) {
 			strcpy(envPathPbm, "../pbm/");
 			envPathPbm = realloc(envPathPbm, sizeof(char)*(strlen(envPathPbm)+strlen("img1.txt"))); // random file
 			strcat(envPathPbm, "img1.txt");*/
-			execl("static", "../pbm/img1.pbm", NULL);
+			execl("../bin/static", "../pbm/img/1.pbm", NULL);
 		} else if (Type == DYNAMIC) {
 			//strcat(envPath, "dynamic");
-			execl("dynamic", NULL);
+			execl("../bin/dynamic", NULL);
 		} else if (Type == INTERACTIVE) {
 			//strcat(envPath, "/interactive");
-			execl("interactive", "0", "0", NULL);
+			execl("../bin/interactive", "10", "10", NULL);
 		} else {
 			fprintf(stderr, "Erreur, le type choisie n'existe pas.\n");
 		}
@@ -72,9 +70,8 @@ int main (int argc, char *argv[]) {
 		}
 	} else if (argc == 1) { // lance les screensavers
 		srand(time(NULL));
-		int r=rand()%2+1;
-		scanf("%d", &r);
-		//r = 3; // r prends une variable aléatoire qui va servir a choisir le screen
+		int r=rand()%3+1;
+		printf("R : %d\n", r);
 		if (r==1) {
 			execProcess(STATIC);
 		} else if (r==2) {
