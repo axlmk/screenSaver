@@ -1,11 +1,9 @@
-#sdfqsdfqsdf sdfsdf
 P1
-# Un exemple bitmap de la lettre "J"
-23#largeur
-5#hauteur
+23 #largeur
+5 #hauteur
 0XXX0 0X000X 0XXXXX 0X0000#
 X000X 00X0X0 0X0000 0X0000#
 XXXXX 000X00 0XXX00 0X0000#
 X000X 00X0X0 0X0000 0X0000#
 X000X 0X000X 0XXXXX 0XXXXX#
-#sdgfsqdg
+#AXEL

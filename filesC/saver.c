@@ -1,6 +1,7 @@
 #include <sys/types.h>
 #include "../header/stat.h"
 #include "../header/file.h"
+#include <dirent.h>
 
 typedef enum screenType screenType; // enum simplifiant les types d'ecrans choisis
 enum screenType {
@@ -16,12 +17,31 @@ void write_history(screenType Type) {
 	t = localtime(temps); // créer une variable temps a utiliser pour ecrire ans le fichier
 	FILE *f = fopen("../stat/logs.txt", "r+");
 	if (f==NULL) {
-		fprintf(stderr, "Une erreur est survenue lors de l'ouverture du fichier <logs>.\n");
+		perror("Une erreur est survenue lors de l'ouverture du fichier <logs>");
 	} else {
 		fseek(f, 0, SEEK_END); //rajoute la date a la derniere ligne
 		fprintf(f, "%d/%d/%d %d:%d:%d;%d;%s\n", t->tm_mday, t->tm_mon, (t->tm_year+1900), t->tm_hour, t->tm_min, t->tm_sec, Type, "qsdf"); //ecrit l'heure du lancement du screen
 	}
 	fclose(f);
+}
+
+int directoryCount(char *path) {
+	DIR *dir;
+	struct dirent *ent;
+	int n=0;
+	if ((dir = opendir (path)) != NULL) {
+	  while ((ent = readdir (dir)) != NULL) {
+		  n++;
+	  }
+	  closedir (dir);
+	} else {
+	  perror ("Une erreur est survenue lors de l'ouverture du repertoire");
+  } return n-2;
+}
+
+int randum(int n) {
+	srand(time(NULL));
+	return rand()%n;
 }
 
 void execProcess(screenType Type) {
@@ -31,18 +51,16 @@ void execProcess(screenType Type) {
 		write_history(Type);
 	} else {
 		if (Type == STATIC) {
-			/*envPath = realloc(envPath, sizeof(char)*(strlen(envPath)+strlen("static")));
-			strcat(envPath, "static");
-			char *envPathPbm = malloc(sizeof(char)*(strlen("../pbm/")));
-			strcpy(envPathPbm, "../pbm/");
-			envPathPbm = realloc(envPathPbm, sizeof(char)*(strlen(envPathPbm)+strlen("img1.txt"))); // random file
-			strcat(envPathPbm, "img1.txt");*/
-			execl("../bin/static", "../pbm/img/1.pbm", NULL);
+			char path[64]; path[0] = '\0';
+			strcpy(path, "../pbm/img/");
+			int n = directoryCount(path);
+			int r = randum(n)+1;
+			path[0] = '\0';
+			sprintf(path, "../pbm/img/%d.pbm", r);
+			execl("../bin/static", path, NULL);
 		} else if (Type == DYNAMIC) {
-			//strcat(envPath, "dynamic");
 			execl("../bin/dynamic", NULL);
 		} else if (Type == INTERACTIVE) {
-			//strcat(envPath, "/interactive");
 			execl("../bin/interactive", "10", "10", NULL);
 		} else {
 			fprintf(stderr, "Erreur, le type choisie n'existe pas.\n");
@@ -69,9 +87,8 @@ int main (int argc, char *argv[]) {
 			return EXIT_FAILURE;
 		}
 	} else if (argc == 1) { // lance les screensavers
-		srand(time(NULL));
-		int r=rand()%3+1;
-		printf("R : %d\n", r);
+		int r = randum(3);
+		r = 1;
 		if (r==1) {
 			execProcess(STATIC);
 		} else if (r==2) {
