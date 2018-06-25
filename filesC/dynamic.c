@@ -4,7 +4,7 @@
 #include <time.h>
 
 int main(int argc, char *argv[]) {
-    int k = 3;
+    int k = atoi(argv[1]);
 	int N = 5;
     char ***arrayNumber = numberPbm(k);
     while(1) {

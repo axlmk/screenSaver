@@ -10,7 +10,7 @@ enum screenType {
 	INTERACTIVE = 3
 };
 
-void write_history(screenType Type) {
+void write_history(screenType Type, char *parameters) {
 	time_t *temps;
 	time(temps);
 	struct tm *t;
@@ -20,7 +20,7 @@ void write_history(screenType Type) {
 		perror("Une erreur est survenue lors de l'ouverture du fichier <logs>");
 	} else {
 		fseek(f, 0, SEEK_END); //rajoute la date a la derniere ligne
-		fprintf(f, "%d/%d/%d %d:%d:%d;%d;%s\n", t->tm_mday, t->tm_mon, (t->tm_year+1900), t->tm_hour, t->tm_min, t->tm_sec, Type, "qsdf"); //ecrit l'heure du lancement du screen
+		fprintf(f, "%d/%d/%d %d:%d:%d;%d;%s\n", t->tm_mday, t->tm_mon, (t->tm_year+1900), t->tm_hour, t->tm_min, t->tm_sec, Type, parameters); //ecrit l'heure du lancement du screen
 	}
 	fclose(f);
 }
@@ -47,25 +47,43 @@ int randum(int n) {
 void execProcess(screenType Type) {
 	pid_t child_pid;
 	child_pid = fork(); //cree un nouveau processus
-	if (child_pid==0) {
-		write_history(Type);
-	} else {
-		if (Type == STATIC) {
-			char path[64]; path[0] = '\0';
-			strcpy(path, "../pbm/img/");
-			int n = directoryCount(path);
-			int r = randum(n)+1;
-			path[0] = '\0';
-			sprintf(path, "../pbm/img/%d.pbm", r);
-			execl("../bin/static", path, NULL);
-		} else if (Type == DYNAMIC) {
-			execl("../bin/dynamic", NULL);
-		} else if (Type == INTERACTIVE) {
-			execl("../bin/interactive", "10", "10", NULL);
+	struct winsize w;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	if(Type = STATIC) {
+		char path[64]; path[0] = '\0';
+		strcpy(path, "../pbm/img/");
+		int n = directoryCount(path);
+		int r = randum(n)+1;
+		path[0] = '\0';
+		sprintf(path, "../pbm/img/%d.pbm", r);
+		if(child_pid = 0) {
+			write_history(Type, path);
 		} else {
-			fprintf(stderr, "Erreur, le type choisie n'existe pas.\n");
+			execl("../bin/static", path, NULL);
 		}
-		fprintf(stderr, "Une erreur est survenue lors de l'execution du nouveau processus. Pid : %d\n", child_pid);
+	} else if(Type = DYNAMIC) {
+		int k = randum(w.ws_col - (8*3+7));
+		char c_k[4]; memset(c_k, 0, 4);
+		sprintf(c_k, "%d", k);
+		if(child_pid = 0) {
+			write_history(Type, c_k);
+		} else {
+			execl("../bin/dynamic", c_k, NULL);
+		}
+	} else if(Type = INTERACTIVE) {
+		int x = randum(w.ws_row);
+		int y = randum(w.ws_col);
+		char x_c[4]; memset(x_c, 0, 4);
+		char y_c[4]; memset(y_c, 0, 4);
+		sprintf(x_c, "%d", x);
+		sprintf(y_c, "%d", y);
+		if(child_pid = 0) {
+			char param[8]; memset(param, 0, 8);
+			sprintf(param, "%dx%d", x, y);
+			write_history(Type, param);
+		} else {
+			execl("../bin/interactive", x_c, y_c, NULL);
+		}
 	}
 }
 
@@ -88,7 +106,7 @@ int main (int argc, char *argv[]) {
 		}
 	} else if (argc == 1) { // lance les screensavers
 		int r = randum(3);
-		r = 1;
+		r = 2;
 		if (r==1) {
 			execProcess(STATIC);
 		} else if (r==2) {
