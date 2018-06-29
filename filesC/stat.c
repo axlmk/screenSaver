@@ -73,11 +73,12 @@ void launchStat() {
 	int quit=1;
 	do {
 		printf("\nComment souhaitez-vous acceder aux informations ?\n");
-		printf("1 - Tris des dates\n2 - Statistiques du nombres d'ecrans lances\n");
-		printf("3 - Statistiques des paramètre d'un ecran specifique\n4 - Quitter\n");
+		printf("1 - Tris par date\n2 - Statistiques du nombres d'ecrans lances\n");
+		printf("3 - Statistiques des paramètres d'un ecran specifique\n4 - Quitter\n");
 		int type=0;
 		const char path[17] = "../stat/logs.txt";
 		scanf("%d", &type); //a sécuriser
+		system("clear");
 		if (type==1) {
 			FILE *f = fopen(path, "r");
 			if(f == NULL) {
@@ -95,6 +96,7 @@ void launchStat() {
 					}
 				}
 			}
+			quit = 0;
 		} else if (type==2) {
 			FILE *f = fopen(path, "r");
 			if (f==NULL) {
@@ -103,21 +105,24 @@ void launchStat() {
 				int saver=0, saver1=0, saver2=0, saver3=0;
 				while(fgetc(f)!=EOF) {
 					fseek(f, -1, SEEK_CUR);
-					if (fgetc(f)==*"#") {
-						while(fgetc(f)!=*"\n");
-					}
-					while(fgetc(f)!=*";");
-					saver=fgetc(f);
-					if (saver==*"1") {
-						saver1++;
-					} else if (saver==*"2") {
-						saver2++;
-					} else if (saver==*"3") {
-						saver3++;
+					if (fgetc(f)=='#') {
+						fseek(f, -1, SEEK_CUR);
+						while(fgetc(f)!='\n');
 					} else {
-						fprintf(stderr, "Erreur lors de la detection du type\n");
+						fseek(f, -1, SEEK_CUR);
+						while(fgetc(f)!=';');
+						saver=fgetc(f);
+						if (saver=='1') {
+							saver1++;
+						} else if (saver=='2') {
+							saver2++;
+						} else if (saver=='3') {
+							saver3++;
+						} else {
+							fprintf(stderr, "Erreur lors de la detection du type\n");
+						}
+						while(fgetc(f)!='\n');
 					}
-					while(fgetc(f)!=*"\n");
 				}
 				printf("%d ecrans statiques ont ete lances.\n", saver1);
 				printf("%d ecrans dynamiques ont ete lances.\n", saver2);
