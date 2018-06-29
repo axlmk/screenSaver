@@ -81,17 +81,17 @@ void launchStat() {
 		if (type==1) {
 			FILE *f = fopen(path, "r");
 			if(f == NULL) {
-					printf(stderr, "Une erreur lors de l'ouverture du fichier est survenue <log>.\n");
+					fprintf(stderr, "Une erreur lors de l'ouverture du fichier est survenue <log>.\n");
 			} else {
+				fseek(f, 0, SEEK_SET);
 				while(fgetc(f)!=EOF) {
 					fseek(f, -1, SEEK_CUR);
-					if(fgetc(f)==*"#")
-						while(fgetc(f)!=*"\n");
-					else {
-						while(fgetc(f)!=*"\n") {
-							fseek(f, -1, SEEK_CUR);
-							printf("%c", fgetc(logs));
-						}
+					if(fgetc(f)=='#') {
+						fseek(f, -1, SEEK_CUR);
+						while(fgetc(f)!='\n');
+					} else {
+						fseek(f, -1, SEEK_CUR);
+						printf("%c", fgetc(f));
 					}
 				}
 			}
