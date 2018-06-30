@@ -9,7 +9,7 @@
 #define HEADER_STAT_H_
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 
 int checkLines(FILE *f);
 int nbrMax(FILE *f);

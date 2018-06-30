@@ -20,7 +20,7 @@ void write_history(screenType Type, char *parameters) {
 		perror("Une erreur est survenue lors de l'ouverture du fichier <logs>");
 	} else {
 		fseek(f, 0, SEEK_END); //rajoute la date a la derniere ligne
-		fprintf(f, "%d/%d/%d %d:%d:%d %d;\"%s\"\n", t->tm_mday, t->tm_mon, (t->tm_year+1900), t->tm_hour, t->tm_min, t->tm_sec, Type, parameters); //ecrit l'heure du lancement du screen
+		fprintf(f, "%d/%d/%d %d:%d:%d;%d;\"%s\"\n", t->tm_mday, t->tm_mon, (t->tm_year+1900), t->tm_hour, t->tm_min, t->tm_sec, Type, parameters); //ecrit l'heure du lancement du screen
 	}
 	fclose(f);
 }
