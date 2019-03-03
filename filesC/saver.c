@@ -89,7 +89,7 @@ void execProcess(screenType Type) {
 
 int main (int argc, char *argv[]) {
 	if (argc == 2) { //verifie s'il y a des options lors l'ouverture du fichier
-		if(!strcmp(argv[1], "-stat")) { //le truc qui manque c'est ici qui faut le mettre bisous
+		if(!strcmp(argv[1], "-stat")) {
 			launchStat();
 			return EXIT_SUCCESS;
 		} else if(!strcmp(argv[1], "--help")) { //donne les options disponibles
