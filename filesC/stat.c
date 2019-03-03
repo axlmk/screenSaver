@@ -70,7 +70,7 @@ void launchStat() {
 			} else {
 				char c = '0';
 				printf("Veuillez saisir le nombre de l'ecran dont vous voulez obtenir les parametres :\n");
-				scanf("%c", &c); //oui c'est degueu mais j'ai la flemme de vider le tempon
+				scanf("%c", &c); 
 				scanf("%c", &c);
 				while(fgetc(f)!=EOF) {
 					fseek(f, -1, SEEK_CUR);
