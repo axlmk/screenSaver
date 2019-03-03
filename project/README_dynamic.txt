@@ -1,2 +1,0 @@
-Problème : j'ai du, dans la fonction printStringPbm, remplacer un strlen(string) par un width. Car la longueur de la string ne correspond pas au résultat attendu.
-C'est à dire que lors dès premiers tours de boucle pour afficher l'heure, l'array est détecté correctement, néanmoins après la longueur de la string semble varier. C'est donc sûrement dû à une alloc mém foireuse faite dans la fonction createDateArray.
